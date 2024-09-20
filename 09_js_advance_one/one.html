@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api</title>
+    <style>
+                .card {
+        /* Add shadows to create the "card" effect */
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        }
+
+        /* On mouse-over, add a deeper shadow */
+        .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        /* Add some padding inside the card container */
+        .container {
+        padding: 2px 16px;
+        }
+    </style>
+</head>
+<body>
+    <button>Click show info</button>
+</body>
+<script>
+    const body = document.querySelector('body')
+    const button = document.querySelector('button')
+    const div = document.createElement('div')
+     const requestUrl = 'https://api.github.com/users/hiteshchoudhary'
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', requestUrl)
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        button.addEventListener('click', ()=> {
+            if (xhr.readyState === 4) {
+            const data = JSON.parse(this.responseText)
+            console.log( data);
+            console.log(data.followers);
+            div.innerHTML=`
+            <div class="card">
+                <img src="${data.avatar_url}">
+                <div class="container">
+                    <h4><b>${data.name}</b></h4>
+                    <p>Followers : ${data.followers}</p>
+                </div>
+            </div>
+            `
+            body.appendChild(div)
+        }
+        })
+    }
+    xhr.send(); 
+</script>
+</html>
